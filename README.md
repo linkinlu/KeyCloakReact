@@ -1,16 +1,72 @@
-# React + Vite
+# React Keycloak Admin Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A robust React application demonstrating **direct client-side integration** with Keycloak's Admin REST API. This project serves as a comprehensive example of how to build a User Management and Audit Logging dashboard without a dedicated backend proxy.
 
-Currently, two official plugins are available:
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![React](https://img.shields.io/badge/React-18-blue)
+![Vite](https://img.shields.io/badge/Vite-6-purple)
+![Keycloak](https://img.shields.io/badge/Keycloak-26-orange)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## React Compiler
+*   **🔐 Seamless Authentication**: Full OIDC integration using `keycloak-js` with Silent SSO check.
+*   **👥 User Management**: 
+    *   List users with server-side pagination.
+    *   Create new users (Username, Email, Credentials).
+    *   Edit existing users (Reset Password, Enable/Disable).
+*   **🛡️ Dynamic Role Management**: 
+    *   Fetch available Realm Roles dynamically.
+    *   Assign/Remove specific roles (`admin`, `doctor`, `doctoradmin`).
+*   **📜 Audit Logging**: 
+    *   View Login, Logout, and Login Error events.
+    *   Detailed inspection of user IP and client info.
+*   **🎨 Modern UI**: Premium Dark Mode design with responsive glassmorphism elements.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tech Stack
 
-## Expanding the ESLint configuration
+*   **Frontend**: React + Vite
+*   **Auth**: Keycloak (OIDC)
+*   **API**: Keycloak Admin REST API (consumed directly via `fetch`)
+*   **Styling**: Pure CSS (Modern Variables & Layouts)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## ⚙️ Prerequisites & Setup
+
+### 1. Keycloak Configuration (Crucial)
+To allow the frontend to manage users, your Keycloak Client (`react-app`) must be configured correctly:
+
+*   **Web Origins**: Add `http://localhost:5173` (to allow CORS).
+*   **User Permissions**: The logged-in user *must* have the `realm-admin` role (or granular `manage-users` + `view-events` client roles from `realm-management`).
+*   **Events**: Enable "Save Events" in Realm Settings to see Audit Logs.
+
+### 2. Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/your-username/keycloak-react-admin.git
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+### 3. Environment Config
+Update `src/App.jsx` with your Keycloak URL:
+
+```javascript
+const keycloakConfig = {
+  url: 'http://localhost:8080/', 
+  realm: 'my-react-app',
+  clientId: 'react-app'
+};
+```
+
+## 📸 Usage
+
+1.  Login with an Admin account.
+2.  Use the **User Management** panel to create users or assign roles.
+3.  Scroll down to **Audit Logs** to monitor system access.
+
+## 📄 License
+MIT
